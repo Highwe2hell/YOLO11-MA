@@ -5,14 +5,24 @@ import cv2
 import subprocess
 from pathlib import Path
 
-# FFmpeg 路径
+# FFmpeg工具的路径，用于视频格式转换
 FFMPEG_PATH = r'C:\Program Files\FFmpeg\bin\ffmpeg.exe'
 
-# 加载模型
+# 加载预训练的YOLO模型
 model = YOLO('static/models/YOLO11-MA_base.pt')
 
 
 def run_model(image_path):
+    """
+    使用YOLO模型运行图片检测。
+
+    参数:
+    image_path (str): 输入图片的路径。
+
+    返回:
+    str: 处理后图片的路径。
+    float: 推理时间（毫秒）。
+    """
     start_time = time.time()
     image_path = Path(image_path)
     result_path = image_path.with_name(f"{image_path.stem}_result{image_path.suffix}")
@@ -26,7 +36,11 @@ def run_model(image_path):
 
 def convert_to_browser_compatible_mp4(input_path, output_path):
     """
-    使用 FFmpeg 转码为浏览器兼容的 H.264 格式
+    将视频文件转换为浏览器兼容的MP4格式。
+
+    参数:
+    input_path (str): 输入视频文件的路径。
+    output_path (str): 输出转换后的视频文件路径。
     """
     cmd = [
         FFMPEG_PATH,
@@ -42,6 +56,16 @@ def convert_to_browser_compatible_mp4(input_path, output_path):
 
 
 def run_video_model(video_path):
+    """
+    使用YOLO模型运行视频检测。
+
+    参数:
+    video_path (str): 输入视频的路径。
+
+    返回:
+    str: 处理后视频的路径。
+    float: 推理时间（毫秒）。
+    """
     start_time = time.time()
     video_path = Path(video_path)
     uploads_folder = Path(os.getcwd()) / 'static' / 'uploads'
@@ -70,7 +94,6 @@ def run_video_model(video_path):
     cap.release()
     out.release()
 
-    # 转码为浏览器兼容格式
     convert_to_browser_compatible_mp4(str(raw_result_path), str(converted_path))
 
     inference_time = round((time.time() - start_time) * 1000, 2)
