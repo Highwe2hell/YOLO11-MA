@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>YOLO11-MA | 识别结果</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+<header class="navbar">
+    <div class="logo">✈ YOLO11-MA</div>
+    <div class="subtitle">基于YOLO11改进的高性能军用飞机识别模型</div>
+</header>
+
+<main class="main-container">
+    <div class="upload-card result-card">
+        <h2>识别完成 <span class="checkmark">✅</span></h2>
+
+        <div class="result-meta">
+            <div class="result-info">
+                <p><span class="label">⏱️ 耗时：</span><span class="value">{{ inference_time }} ms</span></p>
+            </div>
+        </div>
+
+        <div class="result-media-container">
+            {% if media_type == 'image' %}
+                <img src="{{ result_url }}" alt="识别图像结果" class="result-media"
+                     onerror="this.src='{{ url_for('static', filename='images/no-preview.png') }}';">
+            {% elif media_type == 'video' %}
+                <video class="result-media" controls>
+                    <source src="{{ result_url }}" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            {% endif %}
+        </div>
+
+        <div class="button-wrapper">
+            <a href="/" class="back-btn">← 返回上传页面</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

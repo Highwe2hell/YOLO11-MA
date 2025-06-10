@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>YOLO11-MA | 军用飞机识别系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+
+<body>
+<header class="navbar">
+    <div class="logo">✈ YOLO11-MA</div>
+    <div class="subtitle">基于YOLO11改进的高性能军用飞机识别模型</div>
+</header>
+
+<main class="main-container">
+    <div class="upload-card">
+        <h2>上传图像或视频以进行识别</h2>
+        <p class="upload-tip">支持 JPG / PNG / MP4 格式，最大支持 50MB。<br>系统将自动检测并标注军用飞机类型。</p>
+
+        <form method="POST" action="/upload" enctype="multipart/form-data">
+            <div class="file-btn-container">
+                <label for="file-upload" class="custom-file-upload">
+                    📁 选择文件
+                </label>
+                <input id="file-upload" type="file" name="media" accept="image/*,video/mp4" required>
+
+                <input type="submit" value="立即上传并识别" class="action-btn">
+            </div>
+
+            <!-- 预览容器 -->
+            <div class="preview-container">
+                <img id="preview-image" alt="图像预览" class="preview-media hidden" src="">
+                <video id="preview-video" class="preview-media hidden" controls muted></video>
+            </div>
+
+            <!-- 加载中动画 -->
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <span>正在识别中，请稍候...</span>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>
